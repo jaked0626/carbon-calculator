@@ -1,3 +1,3 @@
-# insta_prac  
+# Carbon Calculator App  
   
-Instagram duplicate app, uses React Native, Firestore, Redux. 
+React Native + Firebase (Firestore) + Redux
