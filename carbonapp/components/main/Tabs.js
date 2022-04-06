@@ -25,8 +25,7 @@ const CustomCameraButton = ({ children, onPress }) => (
     style = {{
         top : -10,
         justifyContent: 'center', 
-        alignItems: 'center', 
-        //...styles.shadow,
+        alignItems: 'center',
     }}
     onPress = { onPress }
     >
@@ -64,7 +63,7 @@ const Tabs = () => {
                     right: 0,
                     elevation: 0,
                     backgroundColor: "#808B96",
-                    height: 60,
+                    height: 80,
                 }
             }}>
             <Tab.Screen name="Feed" component={FeedScreen}
