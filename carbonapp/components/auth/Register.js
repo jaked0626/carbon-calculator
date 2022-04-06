@@ -3,6 +3,7 @@ import { View, Button, TextInput } from 'react-native';
 import { getApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export class Register extends Component {
     // initializes components, first function to be called when creating a component
@@ -30,7 +31,7 @@ export class Register extends Component {
                         name: name,
                         email: email,
                     });
-                    console.log("Document written with ID: ", docRef.id);
+                    console.log("Document written with ID: ", auth.currentUser.uid);
                 } catch (e) {
                     console.error("Error adding document: ", e);
                 }

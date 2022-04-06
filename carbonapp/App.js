@@ -10,7 +10,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// USE ENVIRONMENT VARIABLES TO HIDE THIS  
 const firebaseConfig = {
   apiKey: "AIzaSyD-O5ZeiXbDwa1R7PvxH2i7n4kTBiyvqEY",
   authDomain: "instagram-dev-7bef4.firebaseapp.com",
@@ -33,6 +32,7 @@ import LandingScreen from './components/auth/Landing.js'
 import RegisterScreen from './components/auth/Register.js'
 import LoginScreen from './components/auth/Login.js'
 import MainScreen from './components/Main.js'
+import CameraScreen from './components/main/Camera.js';
 
 const Stack = createStackNavigator();
 
@@ -92,7 +92,17 @@ export class App extends Component {
     return(
       // wrap with provider to enable redux
       <Provider store = {store}>
-        <MainScreen />
+        <NavigationContainer>
+          <Stack.Navigator 
+          intialRouteName='Main'
+          screenOptions = {{
+            cardStyle : { backgroundColor: 'white' }
+          }}
+          >
+            <Stack.Screen name='Back' component={ MainScreen } options = {{ headerShown: false }} />
+            <Stack.Screen name='Camera' component={ CameraScreen } options = {{ headerShown: true }} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
