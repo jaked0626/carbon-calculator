@@ -25,7 +25,7 @@ if (getApps().length == 0) {
   initializeApp(firebaseConfig)
 }
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'; // stack navigation
 
 import LandingScreen from './components/auth/Landing.js'
@@ -35,6 +35,13 @@ import MainScreen from './components/Main.js'
 import CameraScreen from './components/main/Camera.js';
 
 const Stack = createStackNavigator();
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#E6FFF1',
+  }
+}
 
 // import and setup Redux
 import { Provider } from 'react-redux';
@@ -92,15 +99,28 @@ export class App extends Component {
     return(
       // wrap with provider to enable redux
       <Provider store = {store}>
-        <NavigationContainer>
+        <NavigationContainer theme={ MyTheme }>
           <Stack.Navigator 
           intialRouteName='Main'
           screenOptions = {{
             cardStyle : { backgroundColor: 'white' }
           }}
           >
-            <Stack.Screen name='Back' component={ MainScreen } options = {{ headerShown: false }} />
-            <Stack.Screen name='Camera' component={ CameraScreen } options = {{ headerShown: true }} />
+            <Stack.Screen 
+            name='Main'
+            component={ MainScreen }
+            options = {{ 
+              headerShown: false,
+              cardStyle: {
+                backgroundColor: '#B9FED8'
+              }
+            }}/>
+            <Stack.Screen 
+            name='Camera' 
+            component={ CameraScreen } 
+            options = {{ 
+              headerShown: true,
+            }}/>
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

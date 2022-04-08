@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import { Camera } from 'expo-camera';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -32,7 +33,7 @@ export default function App() {
                   : Camera.Constants.Type.back
               );
             }}>
-            <Text style={styles.text}> Flip </Text>
+            <MaterialCommunityIcons name = 'rotate-3d-variant' color = '#A3E4D7' size = {45} />
           </TouchableOpacity>
         </View>
       </Camera>
@@ -50,13 +51,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     backgroundColor: 'transparent',
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
   },
   button: {
     flex: 0.1,
     alignSelf: 'flex-start',
     alignItems: 'center',
-    top : 0,
+    top : 15,
+    right: -15,
   },
   text: {
     fontSize: 18,
