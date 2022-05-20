@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Button, Alert, Image } from '
 import { Camera, CameraPreview } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export default function App() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -58,81 +59,71 @@ export default function App() {
     return <Text>No access to camera</Text>;
   }
   return (
-    <View style={styles.container}>
       <Camera 
         style={styles.camera} 
         type={type}
         ref={ref => setCamera(ref)} // assigns camera variable to the camera we are using
         > 
-        <View style={styles.buttonContainer}>
+        <View style = {styles.ButtonsContainer}>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.flipButton}
             onPress={() => {
               setType(
                 type === Camera.Constants.Type.back // if camera type is back, change to front, otherwise change to back
                   ? Camera.Constants.Type.front
                   : Camera.Constants.Type.back
               );
-            }}>
+          }}>
             <MaterialCommunityIcons name = 'rotate-3d-variant' color = '#A3E4D7' size = {45} />
           </TouchableOpacity>
-        </View>
-        <View style = {styles.cameraButtonContainer}>
-        <TouchableOpacity
-            style={styles.cameraButton}
-            onPress={() => { takePicture();}}/>
-          <Button
+          <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={() => { takePicture();}}/>
+          <TouchableOpacity
             style={styles.galleryButton}
-            title='Gallery'
-            onPress={() => { pickImage();}}/>
+            title="Gallery"
+            onPress={() => { pickImage();}}>
+            <Entypo name = 'image' color = '#A3E4D7' size = {45} />
+          </TouchableOpacity>
+
         </View>
       </Camera>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({ 
-  container: {
-    flex: 1,
-  },
   camera: {
     flex: 1,
+    //alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  buttonContainer: {
+  ButtonsContainer: {
     flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row-reverse',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
-  button: {
-    flex: 0.1,
-    alignSelf: 'flex-start',
-    alignItems: 'center',
-    top : 15,
-    right: -15,
+  flipButton: {
+    position: 'absolute',
+    bottom: 50,
+    left: 30,
+    //justifyContent: 'flex-end',
+    //alignSelf: 'flex-start',
   },
   cameraButton: {
-    //flex: 0.23,
     alignSelf: 'center',
     width: 90,
     height: 90,
+    bottom: 50,
     borderRadius: 100,
     borderWidth: 1,
     borderColor: '#A3E4D7',
     shadowOpacity: 1,
     shadowRadius: 1,
-    top: 80,
-  },
-  cameraButtonContainer: {
-    flex: 1,
-    flexDirection: 'column-reverse'
-  },
-  galleryButtonContainer: {
-    flex:1, 
-    flexDirection: 'row-reverse',
   },
   galleryButton: {
-    alignSelf:'flex-end',
-    justifyContent: 'flex-start'
+    position: 'absolute', 
+    right: 30,
+    bottom: 50,
   },
   text: {
     fontSize: 18,
