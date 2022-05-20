@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Button, Alert, Image } from 'react-native';
 import { Camera, CameraPreview } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function App() {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  // const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
@@ -13,13 +15,16 @@ export default function App() {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
+      setHasCameraPermission(status === 'granted');
+      // no need for image picker permission
+      // const { galleryStatus } = await ImagePicker.requestCameraRollPermissionsAsync();
+      // setHasGalleryPermission(status === 'granted');
+
     })();
   }, []);
 
   const takePicture = async () => {
-    const {status} = await Camera.requestCameraPermissionsAsync();
-    if (status === 'granted') {
+    if (hasCameraPermission) {
       if (camera) { // if camera cannot be found, don't take picture. 
         const photoData = await camera.takePictureAsync({quality: 1,});
         setImage(photoData);
@@ -30,10 +35,26 @@ export default function App() {
     }
   };
 
-  if (hasPermission === null) {
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  if (hasCameraPermission === null) { // || hasGalleryPermission === null
     return <View />;
   }
-  if (hasPermission === false) {
+  if (hasCameraPermission === false) {// || hasGalleryPermission === false
     return <Text>No access to camera</Text>;
   }
   return (
@@ -60,6 +81,10 @@ export default function App() {
         <TouchableOpacity
             style={styles.cameraButton}
             onPress={() => { takePicture();}}/>
+          <Button
+            style={styles.galleryButton}
+            title='Gallery'
+            onPress={() => { pickImage();}}/>
         </View>
       </Camera>
     </View>
@@ -88,8 +113,6 @@ const styles = StyleSheet.create({
   cameraButton: {
     //flex: 0.23,
     alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
     width: 90,
     height: 90,
     borderRadius: 100,
@@ -102,6 +125,14 @@ const styles = StyleSheet.create({
   cameraButtonContainer: {
     flex: 1,
     flexDirection: 'column-reverse'
+  },
+  galleryButtonContainer: {
+    flex:1, 
+    flexDirection: 'row-reverse',
+  },
+  galleryButton: {
+    alignSelf:'flex-end',
+    justifyContent: 'flex-start'
   },
   text: {
     fontSize: 18,
