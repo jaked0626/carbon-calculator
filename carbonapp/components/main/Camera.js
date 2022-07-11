@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-export default function App() {
+export default function Add({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   // const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -27,9 +27,14 @@ export default function App() {
   const takePicture = async () => {
     if (hasCameraPermission) {
       if (camera) { // if camera cannot be found, don't take picture. 
-        const photoData = await camera.takePictureAsync({quality: 1,});
-        setImage(photoData);
-        setPreviewVisible(true);
+        const photoData = await camera.takePictureAsync({quality: 1});
+        //console.log(photoData);
+        if (photoData) {
+          setImage(photoData);
+          setPreviewVisible(true);
+          //console.log(image);
+          navigation.navigate('Results', { image: image });
+        }
       }
     } else {
       Alert.alert("Needs permission to use camera")
@@ -41,14 +46,15 @@ export default function App() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
+      navigation.navigate('Results', { image: image });
     }
   };
 

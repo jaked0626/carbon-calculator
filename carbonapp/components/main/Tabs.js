@@ -13,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FeedScreen from './Feed.js';
 import GraphScreen from './Graph.js';
 import ProfileScreen from './Profile.js';
-import ScoreboardScreen from './Scoreboard.js';
+import LeaderboardScreen from './Leaderboard.js';
 // camera is not imported as it is a different screen
 
 // create bottom navigation tab
@@ -93,7 +93,7 @@ const Tabs = () => {
                         <CustomCameraButton {...props} />
                     )
             }} />
-            <Tab.Screen name="Scoreboard" component={ScoreboardScreen}
+            <Tab.Screen name="Leaderboard" component={LeaderboardScreen}
                 options = {{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name = 'medal' color = { color } size = { 24 } />

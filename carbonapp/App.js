@@ -33,6 +33,7 @@ import RegisterScreen from './components/auth/Register.js'
 import LoginScreen from './components/auth/Login.js'
 import MainScreen from './components/Main.js'
 import CameraScreen from './components/main/Camera.js';
+import ResultsScreen from './components/main/Results.js';
 
 const Stack = createStackNavigator();
 const MyTheme = {
@@ -117,7 +118,14 @@ export class App extends Component {
             }}/>
             <Stack.Screen 
             name='Camera' 
-            component={ CameraScreen } 
+            component={ CameraScreen }
+            navigation={this.props.navigation}
+            options = {{ 
+              headerShown: true,
+            }}/>
+            <Stack.Screen 
+            name='Results' 
+            component={ ResultsScreen } 
             options = {{ 
               headerShown: true,
             }}/>
