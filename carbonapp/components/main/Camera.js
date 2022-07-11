@@ -10,8 +10,6 @@ export default function Add({ navigation }) {
   // const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [camera, setCamera] = useState(null);
-  const [image, setImage] = useState(null);
-  const [previewVisible, setPreviewVisible] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -27,17 +25,15 @@ export default function Add({ navigation }) {
   const takePicture = async () => {
     if (hasCameraPermission) {
       if (camera) { // if camera cannot be found, don't take picture. 
-        const photoData = await camera.takePictureAsync({quality: 1});
-        //console.log(photoData);
-        if (photoData) {
-          setImage(photoData);
-          setPreviewVisible(true);
-          //console.log(image);
-          navigation.navigate('Results', { image: image });
+        const photoData = await camera.takePictureAsync({quality: 1, base64: true});
+        // async, setImage runs before camera.takepicture
+        const imageSource = photoData.base64;
+        if (imageSource) {
+          navigation.navigate('Results', { image: imageSource });
         }
       }
     } else {
-      Alert.alert("Needs permission to use camera")
+      Alert.alert("Needs permission to use camera");
     }
   };
 
@@ -48,13 +44,14 @@ export default function Add({ navigation }) {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: true,
     });
 
     //console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
-      navigation.navigate('Results', { image: image });
+      const imageSource = result.base64;
+      navigation.navigate('Results', { image: imageSource });
     }
   };
 

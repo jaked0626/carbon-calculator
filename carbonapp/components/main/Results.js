@@ -13,19 +13,18 @@ const clarifai = new Clarifai.App({
 process.nextTick = setImmediate;
  
 export default function Results(props) {
-  //console.log(props)
-  //console.log(props.route.params.image);
-  //const [image, setImage] = useState(props.route.params.image.uri);
+  console.log(props.route.params.image);
+  const [image, setImage] = useState(props.route.params.image); //base64
   const [predictions, setPredictions] = useState(null);
 
-  const prepareImage = async () => {
-    const manipulatedImage = await manipulateAsync(
-      image,
-      [{ resize: { height: 300, width: 300 } }],
-      { base64: true }
-    );
-    setImage(manipulatedImage.base64);
-  };
+  // const prepareImage = async () => {
+  //   const manipulatedImage = await manipulateAsync(
+  //     image,
+  //     [{ resize: { height: 300, width: 300 } }],
+  //     { base64: true }
+  //   );
+  //   setImage(manipulatedImage.base64);
+  // };
   
   //console.log(image);
 
