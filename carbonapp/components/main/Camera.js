@@ -27,7 +27,7 @@ export default function Add({ navigation }) {
       if (camera) { // if camera cannot be found, don't take picture. 
         const photoData = await camera.takePictureAsync({quality: 1, base64: true});
         // async, setImage runs before camera.takepicture
-        const imageSource = photoData.base64;
+        const imageSource = photoData;
         if (imageSource) {
           navigation.navigate('Results', { image: imageSource });
         }
@@ -50,7 +50,7 @@ export default function Add({ navigation }) {
     //console.log(result);
 
     if (!result.cancelled) {
-      const imageSource = result.base64;
+      const imageSource = result;
       navigation.navigate('Results', { image: imageSource });
     }
   };

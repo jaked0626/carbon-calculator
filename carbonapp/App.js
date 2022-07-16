@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React, { Component} from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -82,6 +82,10 @@ export class App extends Component {
     if (!loaded) { // display interim page until user is loaded (overrides following return)
       return(
         <View style = {{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
+          <Image
+            source={require('./assets/app-logo2.png')}
+            style={styles.imageContainer}
+          />
           <Text textAlign={'center'}>Loading...</Text>
         </View>
       );
@@ -137,3 +141,11 @@ export class App extends Component {
 }
 
 export default App
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    width: 200,
+    height: 200,
+  },
+});
+

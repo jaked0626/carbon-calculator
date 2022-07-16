@@ -1,10 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 export default function Graph() {
   return (
     <View style = {{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text textAlign={'center'}> Graph </Text>
+        <Image
+          source={require('../../assets/app-logo2.png')}
+          style={styles.imageContainer}
+         />
+        <Text>Coming soon...</Text>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    width: 200,
+    height: 200,
+  },
+});
+

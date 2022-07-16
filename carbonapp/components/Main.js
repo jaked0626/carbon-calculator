@@ -1,7 +1,7 @@
 // file that is called after Landing, Login, and Register
 // import react and react elements
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 // load page content
@@ -25,6 +25,10 @@ export class Main extends Component {
 
         if (currentUser == undefined) {
             return(<View style = {{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image
+                            source={require('../assets/app-logo2.png')}
+                            style={styles.imageContainer}
+                        />
                         <Text textAlign={'center'}>Fetching User Info...</Text>
                    </View>) 
         }
@@ -39,3 +43,12 @@ const mapStateToProps = (store) => ({
 const mapDispatchProps = (dispatch) => bindActionCreators({ fetchUser }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);
+
+const styles = StyleSheet.create({
+    imageContainer: {
+      width: 200,
+      height: 200,
+    },
+  });
+  
+  
