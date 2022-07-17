@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
+  Button,
   Platform,
   ScrollView,
   StyleSheet,
@@ -10,8 +11,7 @@ import {
 } from "react-native";
 import { CLARIFAI_API_KEY } from '@env';
 import { manipulateAsync } from 'expo-image-manipulator';
-import { render } from 'react-dom';
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 // @ts-ignore
 const Clarifai = require('clarifai');
 
@@ -19,10 +19,13 @@ const clarifai = new Clarifai.App({
  apiKey: CLARIFAI_API_KEY
 });
 
+console.log(clarifai);
+
 process.nextTick = setImmediate;
  
 export default function Results(props) {
 
+  const [score, setScore] = useState(false);
   const [image, setImage] = useState(props.route.params.image); //base64
   const [predictions, setPredictions] = useState(null);
 
@@ -30,11 +33,17 @@ export default function Results(props) {
   
   const predict = clarifai.models.predict(Clarifai.FOOD_MODEL, 
                   {base64: image.base64 },
-                  { maxConcepts: 15, minValue: 0.4 })
+                  { maxConcepts: 10, minValue: 0.4 })
     .then((response) => setPredictions(response.outputs[0].data.concepts)
     .catch((err) => alert(err))
     );
 
+  const toggleScore = async () => {
+    var tempScore = Math.floor(Math.random() * 10) / 2 + 1;
+    setScore(tempScore);
+  }
+
+  const messages = ["You can do better!", "Not great", "Not bad", "Good job!!", "Excellent!!!"]
 
   return (
     <View style={styles.container}>
@@ -43,8 +52,8 @@ export default function Results(props) {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={styles.welcomeContainer}>
-          <Text style={styles.headerText}>{predictions ? "Your Meal Score" : "Breaking Down Your Meal..."}</Text>
-
+          <Text style={styles.headerText}>{score ? `Your Meal Score is ${score}` : "Analyzing Your Meal..."}</Text>
+          <Text style={styles.headerText}>{score ? messages[score - 1] : ""}</Text>
           <TouchableOpacity
             style={styles.imageWrapper}
           >
@@ -67,7 +76,7 @@ export default function Results(props) {
           <View style={styles.predictionWrapper}>
             {image && (
               <Text style={styles.text}>
-                Predictions:
+                {predictions ? 'Select Food Item or Ingredients:' : 'Predicting Food Item...'}
               </Text>
             )}
             {predictions &&
@@ -79,13 +88,23 @@ export default function Results(props) {
                 (p, index) => {
                   console.log(`${index} ${p.name}: ${p.value}`);
                   return (
-                    <Text key={index} style={styles.text}>
-                      {p.name}: {parseFloat(p.value).toFixed(3)}
-                    </Text>
+                    <BouncyCheckbox
+                      key={index}
+                      style={styles.text}
+                      text={p.name}
+                      textStyle={{
+                        textDecorationLine: "none",
+                      }}
+                      onPress={(isChecked) => {}}/>
                   );
                 }
               )}
           </View>
+          {predictions && (
+          <Button
+            title="Calculate Score!"
+            onPress={() => toggleScore()}
+          />)}
         </View>
       </ScrollView>
     </View>

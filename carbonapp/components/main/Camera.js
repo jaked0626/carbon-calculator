@@ -4,6 +4,7 @@ import { Camera, CameraPreview } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import * as MediaLibrary from 'expo-media-library';
 
 export default function Add({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -28,6 +29,7 @@ export default function Add({ navigation }) {
         const photoData = await camera.takePictureAsync({quality: 1, base64: true});
         // async, setImage runs before camera.takepicture
         const imageSource = photoData;
+        MediaLibrary.saveToLibraryAsync(imageSource.uri);
         if (imageSource) {
           navigation.navigate('Results', { image: imageSource });
         }
