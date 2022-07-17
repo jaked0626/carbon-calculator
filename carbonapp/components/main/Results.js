@@ -39,11 +39,11 @@ export default function Results(props) {
     );
 
   const toggleScore = async () => {
-    var tempScore = Math.floor(Math.random() * 10) / 2 + 1;
-    setScore(tempScore);
+    var tempScore = Math.floor(Math.random() * 10 / 2) + 1;
+    setTimeout(setScore, 3, tempScore);
   }
 
-  const messages = ["You can do better!", "Not great", "Not bad", "Good job!!", "Excellent!!!"]
+  const messages = ["You can do better!", "Not great", "Not bad!", "Good job!!", "Excellent!!!"]
 
   return (
     <View style={styles.container}>
