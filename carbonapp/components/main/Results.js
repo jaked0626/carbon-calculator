@@ -19,8 +19,6 @@ const clarifai = new Clarifai.App({
  apiKey: CLARIFAI_API_KEY
 });
 
-console.log(clarifai);
-
 process.nextTick = setImmediate;
  
 export default function Results(props) {
@@ -39,8 +37,9 @@ export default function Results(props) {
     );
 
   const toggleScore = async () => {
+    // assign random scores for now
     var tempScore = Math.floor(Math.random() * 10 / 2) + 1;
-    setTimeout(setScore, 3, tempScore);
+    setScore(tempScore);
   }
 
   const messages = ["You can do better!", "Not great", "Not bad!", "Good job!!", "Excellent!!!"]

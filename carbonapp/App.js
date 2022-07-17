@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { Component} from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, LogBox } from 'react-native';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,6 +19,8 @@ const firebaseConfig = {
   appId: "1:794461030327:web:a8ce8437fe81882c024a32",
   measurementId: "G-6M80D09W4M"
 };
+
+LogBox.ignoreAllLogs(true);
 
 // initialize app (make sure no firebase app is running or else app will crash)
 if (getApps().length == 0) {
